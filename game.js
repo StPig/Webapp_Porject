@@ -1,11 +1,11 @@
 'use strict';
 
 (function(exports) {
-  var element = [];
-  for(var i=0;i<5;i++)
-    element[i] = [];
   var game = function() {
-    this.init();
+    this.win = 0;
+    this.element = [];
+    for(var i=0;i<5;i++)
+      this.element[i] = [];
   };
 
   game.prototype = {
@@ -14,26 +14,26 @@
       {
         for(var j=0;j<5;j++)
         {
-          element[i][j] = 0;
+          this.element[i][j] = 0;
         }
       }
-      element[0][0] = 2;
-      element[0][2] = 2;
-      element[0][4] = "red1";
-      element[1][0] = "red1";
-      element[2][2] = 4;
-      element[3][3] = 5;
-      element[3][4] = 4;
-      element[4][0] = "red1";
-      element[4][1] = 2;
-      element[4][2] = "red1";
-      element[4][3] = 3;
+      this.element[0][0] = 2;
+      this.element[0][2] = 2;
+      this.element[0][4] = "red1";
+      this.element[1][0] = "red1";
+      this.element[2][2] = 4;
+      this.element[3][3] = 5;
+      this.element[3][4] = 4;
+      this.element[4][0] = "red1";
+      this.element[4][1] = 2;
+      this.element[4][2] = "red1";
+      this.element[4][3] = 3;
       var sum = 1;
       for(var i=0;i<5;i++)
       {
         for(var j=0;j<5;j++)
         {
-          this.paint(element[i][j],sum);
+          this.paint(this.element[i][j],sum);
           sum++;
         }
       }
@@ -41,7 +41,7 @@
       {
         document.getElementById(i).addEventListener("click", this.change.bind(this));
       }
-
+      document.getElementById("btn").addEventListener("click", this.restart);
     },
 
     change(i) {
@@ -49,19 +49,19 @@
       {
         var x = parseInt(i.target.id/5)-1;
         var y = parseInt(i.target.id%5)+4;
-        switch(element[x][y])
+        switch(this.element[x][y])
         {
           case "red2":
-            element[x][y] = 0;
-            this.paint(element[x][y],i.target.id);
+            this.element[x][y] = 0;
+            this.paint(this.element[x][y],i.target.id);
             break;
           case "blue":
-            element[x][y] = "red2";
-            this.paint(element[x][y],i.target.id);
+            this.element[x][y] = "red2";
+            this.paint(this.element[x][y],i.target.id);
             break;
           case 0:
-            element[x][y] = "blue";
-            this.paint(element[x][y],i.target.id);
+            this.element[x][y] = "blue";
+            this.paint(this.element[x][y],i.target.id);
             break;
           default:
             break;
@@ -71,19 +71,19 @@
       {
         var x = parseInt(i.target.id/5);
         var y = parseInt(i.target.id%5)-1;
-        switch(element[x][y])
+        switch(this.element[x][y])
         {
           case "red2":
-            element[x][y] = 0;
-            this.paint(element[x][y],i.target.id);
+            this.element[x][y] = 0;
+            this.paint(this.element[x][y],i.target.id);
             break;
           case "blue":
-            element[x][y] = "red2";
-            this.paint(element[x][y],i.target.id);
+            this.element[x][y] = "red2";
+            this.paint(this.element[x][y],i.target.id);
             break;
           case 0:
-            element[x][y] = "blue";
-            this.paint(element[x][y],i.target.id);
+            this.element[x][y] = "blue";
+            this.paint(this.element[x][y],i.target.id);
             break;
           default:
             break;
@@ -130,7 +130,7 @@
     },
 
     check() {
-      var win = 0;
+      this.win = 0;
       var ele = [];
       for(var i=0;i<5;i++)
       {
@@ -140,14 +140,14 @@
       {
         for(var j=0;j<5;j++)
         {
-          if(element[i][j] == "blue")
+          if(this.element[i][j] == "blue")
           {
             var sum = 0;
             if(j == 0)
             {
               for(var k=j+1;k<5;k++)
               {
-                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                if(this.element[i][k] != "red1" && this.element[i][k] != "red2" && this.element[i][k] != 0)
                   sum++;
                 else
                   break;
@@ -157,7 +157,7 @@
             {
               for(var k=j-1;k>=0;k--)
               {
-                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                if(this.element[i][k] != "red1" && this.element[i][k] != "red2" && this.element[i][k] != 0)
                   sum++;
                 else
                   break;
@@ -167,14 +167,14 @@
             {
               for(var k=j+1;k<5;k++)
               {
-                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                if(this.element[i][k] != "red1" && this.element[i][k] != "red2" && this.element[i][k] != 0)
                   sum++;
                 else
                   break;
               }
               for(var k=j-1;k>=0;k--)
               {
-                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                if(this.element[i][k] != "red1" && this.element[i][k] != "red2" && this.element[i][k] != 0)
                   sum++;
                 else
                   break;
@@ -184,7 +184,7 @@
             {
               for(var k=i+1;k<5;k++)
               {
-                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                if(this.element[k][j] != "red1" && this.element[k][j] != "red2" && this.element[k][j] != 0)
                   sum++;
                 else
                   break;
@@ -194,7 +194,7 @@
             {
               for(var k=i-1;k>=0;k--)
               {
-                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                if(this.element[k][j] != "red1" && this.element[k][j] != "red2" && this.element[k][j] != 0)
                   sum++;
                 else
                   break;
@@ -204,14 +204,14 @@
             {
               for(var k=i+1;k<5;k++)
               {
-                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                if(this.element[k][j] != "red1" && this.element[k][j] != "red2" && this.element[k][j] != 0)
                   sum++;
                 else
                   break;
               }
               for(var k=i-1;k>=0;k--)
               {
-                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                if(this.element[k][j] != "red1" && this.element[k][j] != "red2" && this.element[k][j] != 0)
                   sum++;
                 else
                   break;
@@ -240,7 +240,7 @@
           }
           else
           {
-            ele[i][j] = element[i][j];
+            ele[i][j] = this.element[i][j];
           }
         }
       }
@@ -250,7 +250,7 @@
         {
           if(ele[i][j] == "red1" || ele[i][j] == "red2")
           {
-            win++;
+            this.win++;
           }
           else if(ele[i][j] == 0)
           {
@@ -334,15 +334,18 @@
               }
             }
             if(ele[i][j] == sum)
-              win++;
+              this.win++;
           }
         }
       }
-      if(win == 25)
+      if(this.win == 25)
       {
         alert("Win！！");
-        window.location.reload();
       }
+    },
+
+    restart() {
+      window.location.reload();
     }
   };
 

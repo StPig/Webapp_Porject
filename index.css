@@ -10,3 +10,8 @@ td {
 #1 {
   background-image: url("image/red.jpg");
 }
+
+#btn {
+  position: absolute;
+  left: 925px;
+}
