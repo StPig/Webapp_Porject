@@ -6,24 +6,38 @@ describe('Test > ', function() {
     {
       for(var j=0;j<5;j++)
       {
-        element[i][j] = 0;
+        subject.element[i][j] = 0;
       }
     }
-    element[0][0] = 2;
-    element[0][2] = 2;
-    element[0][4] = "red1";
-    element[1][0] = "red1";
-    element[2][2] = 4;
-    element[3][3] = 5;
-    element[3][4] = 4;
-    element[4][0] = "red1";
-    element[4][1] = 2;
-    element[4][2] = "red1";
-    element[4][3] = 3;
+    subject.element[0][0] = 2;
+    subject.element[0][2] = 2;
+    subject.element[0][4] = "red1";
+    subject.element[1][0] = "red1";
+    subject.element[2][2] = 4;
+    subject.element[3][3] = 5;
+    subject.element[3][4] = 4;
+    subject.element[4][0] = "red1";
+    subject.element[4][1] = 2;
+    subject.element[4][2] = "red1";
+    subject.element[4][3] = 3;
   });
 
   it('Test check', function() {
-    subject.updateList(List);
-    assert.equal(subject._listNoteContent[1], "A", "Failed!");
+    subject.element[0][1] = "blue";
+    subject.element[0][3] = "red2";
+    subject.element[1][1] = "red2";
+    subject.element[1][2] = "red2";
+    subject.element[1][3] = "red2";
+    subject.element[1][4] = "red2";
+    subject.element[2][0] = "blue";
+    subject.element[2][1] = "blue";
+    subject.element[2][3] = "blue";
+    subject.element[2][4] = "red2";
+    subject.element[3][0] = "red2";
+    subject.element[3][1] = "blue";
+    subject.element[3][2] = "blue";
+    subject.element[4][4] = "blue";
+    subject.check();
+    assert.equal(subject.check.win, 25, "Failed!");
   });
 });

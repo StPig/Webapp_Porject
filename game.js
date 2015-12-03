@@ -248,13 +248,17 @@
       {
         for(var j=0;j<5;j++)
         {
-          var sum = 0;
           if(ele[i][j] == "red1" || ele[i][j] == "red2")
           {
             win++;
           }
+          else if(ele[i][j] == 0)
+          {
+            break;
+          }
           else
           {
+            var sum = 0;
             if(j == 0)
             {
               for(var k=j+1;k<5;k++)
@@ -334,7 +338,6 @@
           }
         }
       }
-      console.log(win);
       if(win == 25)
       {
         alert("Win！！");
