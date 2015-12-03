@@ -17,14 +17,17 @@
           element[i][j] = 0;
         }
       }
-      element[0][0] = "red1";
-      element[0][3] = 2;
-      element[1][1] = 3;
-      element[1][4] = 5;
-      element[2][0] = 5;
-      element[3][3] = 2;
-      element[4][1] = 1;
-      element[4][4] = 5;
+      element[0][0] = 2;
+      element[0][2] = 2;
+      element[0][4] = "red1";
+      element[1][0] = "red1";
+      element[2][2] = 4;
+      element[3][3] = 5;
+      element[3][4] = 4;
+      element[4][0] = "red1";
+      element[4][1] = 2;
+      element[4][2] = "red1";
+      element[4][3] = 3;
       var sum = 1;
       for(var i=0;i<5;i++)
       {
@@ -36,7 +39,7 @@
       }
       for(var i=1;i<=25;i++)
       {
-        document.getElementById(i).addEventListener("click", this.change);
+        document.getElementById(i).addEventListener("click", this.change.bind(this));
       }
 
     },
@@ -80,13 +83,13 @@
             break;
           case 0:
             element[x][y] = "blue";
-            console.log(element[x][y],i.target.id);
             this.paint(element[x][y],i.target.id);
             break;
           default:
             break;
         }
       }
+      this.check();
     },
 
     paint(ele,num) {
@@ -102,6 +105,7 @@
           document.getElementById(num).style.backgroundImage = "url('image/blue.jpg')";
           break;
         case 0:
+          document.getElementById(num).style.backgroundImage = "url('')";
           break;
         case 1:
           document.getElementById(num).style.backgroundImage = "url('image/1.jpg')";
@@ -126,7 +130,216 @@
     },
 
     check() {
-
+      var win = 0;
+      var ele = [];
+      for(var i=0;i<5;i++)
+      {
+        ele[i] = [];
+      }
+      for(var i=0;i<5;i++)
+      {
+        for(var j=0;j<5;j++)
+        {
+          if(element[i][j] == "blue")
+          {
+            var sum = 0;
+            if(j == 0)
+            {
+              for(var k=j+1;k<5;k++)
+              {
+                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else if(j == 4)
+            {
+              for(var k=j-1;k>=0;k--)
+              {
+                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else
+            {
+              for(var k=j+1;k<5;k++)
+              {
+                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+              for(var k=j-1;k>=0;k--)
+              {
+                if(element[i][k] != "red1" && element[i][k] != "red2" && element[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            if(i == 0)
+            {
+              for(var k=i+1;k<5;k++)
+              {
+                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else if(i == 4)
+            {
+              for(var k=i-1;k>=0;k--)
+              {
+                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else
+            {
+              for(var k=i+1;k<5;k++)
+              {
+                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+              for(var k=i-1;k>=0;k--)
+              {
+                if(element[k][j] != "red1" && element[k][j] != "red2" && element[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            switch(sum)
+            {
+              case 1:
+                ele[i][j] = 1;
+                break;
+              case 2:
+                ele[i][j] = 2;
+                break;
+              case 3:
+                ele[i][j] = 3;
+                break;
+              case 4:
+                ele[i][j] = 4;
+                break;
+              case 5:
+                ele[i][j] = 5;
+                break;
+              default:
+                break;
+            }
+          }
+          else
+          {
+            ele[i][j] = element[i][j];
+          }
+        }
+      }
+      for(var i=0;i<5;i++)
+      {
+        for(var j=0;j<5;j++)
+        {
+          var sum = 0;
+          if(ele[i][j] == "red1" || ele[i][j] == "red2")
+          {
+            win++;
+          }
+          else
+          {
+            if(j == 0)
+            {
+              for(var k=j+1;k<5;k++)
+              {
+                if(ele[i][k] != "red1" && ele[i][k] != "red2" && ele[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else if(j == 4)
+            {
+              for(var k=j-1;k>=0;k--)
+              {
+                if(ele[i][k] != "red1" && ele[i][k] != "red2" && ele[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else
+            {
+              for(var k=j+1;k<5;k++)
+              {
+                if(ele[i][k] != "red1" && ele[i][k] != "red2" && ele[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+              for(var k=j-1;k>=0;k--)
+              {
+                if(ele[i][k] != "red1" && ele[i][k] != "red2" && ele[i][k] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            if(i == 0)
+            {
+              for(var k=i+1;k<5;k++)
+              {
+                if(ele[k][j] != "red1" && ele[k][j] != "red2" && ele[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else if(i == 4)
+            {
+              for(var k=i-1;k>=0;k--)
+              {
+                if(ele[k][j] != "red1" && ele[k][j] != "red2" && ele[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            else
+            {
+              for(var k=i+1;k<5;k++)
+              {
+                if(ele[k][j] != "red1" && ele[k][j] != "red2" && ele[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+              for(var k=i-1;k>=0;k--)
+              {
+                if(ele[k][j] != "red1" && ele[k][j] != "red2" && ele[k][j] != 0)
+                  sum++;
+                else
+                  break;
+              }
+            }
+            if(ele[i][j] == sum)
+              win++;
+          }
+        }
+      }
+      console.log(win);
+      if(win == 25)
+      {
+        alert("Win！！");
+        window.location.reload();
+      }
     }
   };
 
